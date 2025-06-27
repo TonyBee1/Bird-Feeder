@@ -1,0 +1,65 @@
+#include <DS1302.h>
+#include <ESP32Servo.h> 
+
+// Define pins
+const int CE_PIN = 5;
+const int IO_PIN = 6;
+const int SCLK_PIN = 7;
+const int BUZZER_PIN = 3;
+const int LED_PIN = 8;
+const int SERVO_PIN = 9;  // Safe GPIO
+
+DS1302 rtc(CE_PIN, IO_PIN, SCLK_PIN);
+Servo servo;
+
+bool alreadyFlashed = false;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+
+  // Set up servo
+  servo.setPeriodHertz(50); 
+  servo.detach();
+
+  // Uncomment this once to set the time, then re-comment it
+  rtc.time(Time(2025, 6, 27, 12, 40, 0, Time::kTuesday));
+}
+
+void loop() {
+  Time current = rtc.time();
+  // serial monitor structure
+  Serial.print("Time: ");
+  Serial.print(current.hr); Serial.print(":");
+  Serial.print(current.min); Serial.print(":");
+  Serial.println(current.sec);
+  
+
+  // Activate at 12:30pm everyday
+  if (current.hr == 12 && current.min == 30 &&  !alreadyFlashed) {
+    digitalWrite(LED_PIN, HIGH);
+    tone(BUZZER_PIN, 1000);
+    
+    servo.attach(SERVO_PIN, 1000, 2200);
+    servo.write(90); // rotates gate up
+  
+  
+  
+    delay(3000);            // Wait 3 seconds
+    noTone(BUZZER_PIN);
+    digitalWrite(LED_PIN, LOW);
+    
+    servo.write(0); // rotate gate down
+
+    alreadyFlashed = true;
+  }
+  
+
+  // Reset trigger after 1 minute
+  if (current.hr == 12 && current.min == 31) {
+    alreadyFlashed = false;
+  }
+
+  delay(200);
+}
