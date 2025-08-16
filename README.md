@@ -1,6 +1,6 @@
 # Bird-Feeder
 Automatic Bird Feeder
-The goal was to create an automatic feeder that house various components connected into a PCB that is a size of a gift card.
-I design this to be electrically efficient as possible lasting days on a charge.
-
-This project help me bridge together my love for electronics and touch with wildlife 
+The goal was to create an automatic feeder that houses various components connected into a PCB no larger than a gift card.
+I designed this to be as electrically efficient as possible, lasting days on a charge.
+Researching various components and learning how to design circuits allowed me to translate my ideas.
+This project helped me bridge my love for electronics and my connection with wildlife.
