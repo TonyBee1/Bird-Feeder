@@ -7,7 +7,7 @@ const int IO_PIN = 6;
 const int SCLK_PIN = 7;
 const int BUZZER_PIN = 3;
 const int LED_PIN = 8;
-const int SERVO_PIN = 9;  // Safe GPIO
+const int SERVO_PIN = 2;  
 
 DS1302 rtc(CE_PIN, IO_PIN, SCLK_PIN);
 Servo servo;
@@ -24,7 +24,7 @@ void setup() {
   servo.detach();
 
   // Uncomment this once to set the time, then re-comment it
-  rtc.time(Time(2025, 6, 27, 12, 40, 0, Time::kTuesday));
+  //rtc.time(Time(2025, 7, 3, 21, 48, 0, Time::kTuesday));
 }
 
 void loop() {
@@ -37,12 +37,12 @@ void loop() {
   
 
   // Activate at 12:30pm everyday
-  if (current.hr == 12 && current.min == 30 &&  !alreadyFlashed) {
+  if (current.hr == 13 && current.min == 23 &&  !alreadyFlashed) {
     digitalWrite(LED_PIN, HIGH);
     tone(BUZZER_PIN, 1000);
     
     servo.attach(SERVO_PIN, 1000, 2200);
-    servo.write(90); // rotates gate up
+    servo.write(180 - 90); // rotates gate up
   
   
   
@@ -51,13 +51,16 @@ void loop() {
     digitalWrite(LED_PIN, LOW);
     
     servo.write(0); // rotate gate down
+    delay(1000);
+
+    servo.detach(); // turns of servo
 
     alreadyFlashed = true;
   }
   
 
   // Reset trigger after 1 minute
-  if (current.hr == 12 && current.min == 31) {
+  if (current.hr == 13 && current.min == 24) {
     alreadyFlashed = false;
   }
 
