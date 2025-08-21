@@ -37,7 +37,7 @@ void loop() {
   
 
   // Activate at 12:30pm everyday
-  if (current.hr == 13 && current.min == 23 &&  !alreadyFlashed) {
+  if (current.hr == 12 && current.min == 30 &&  !alreadyFlashed) {
     digitalWrite(LED_PIN, HIGH);
     tone(BUZZER_PIN, 1000);
     
@@ -60,7 +60,7 @@ void loop() {
   
 
   // Reset trigger after 1 minute
-  if (current.hr == 13 && current.min == 24) {
+  if (current.hr == 12 && current.min == 31) {
     alreadyFlashed = false;
   }
 
